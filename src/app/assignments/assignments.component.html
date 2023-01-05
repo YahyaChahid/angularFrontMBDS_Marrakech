@@ -1,46 +1,31 @@
-<h3>here second comp</h3>
-<h1>{{titre}}</h1>
+<main class="container">
+  <a routerLink="/add" class="ajouterBtn">
+    <button mat-flat-button color="accent">
+      Ajouter Assignment
+    </button>
+  </a>
+
+  <h3>Liste des devoirs</h3>
+
+  <mat-list *ngFor="let a of assignments">
+    <mat-divider></mat-divider>
+
+    <h3 mat-subheader>{{a.dateDeRendu | date: 'dd/MM/yyyy'}}</h3>
+    <nav>
+      <a routerLink="/assignments/{{a.id}}">
+        <mat-list-item>
+          <p *ngIf="a.rendu; else nonrendu" appRendu>
+            Le devoir {{a.nom}} est à rendre le :
+            {{a.dateDeRendu | date}}.
+          </p>
+
+          <ng-template #nonrendu>
+            <p appNonrendu>Le devoir {{a.nom}} n'a pas été rendu !</p>
+          </ng-template>
+        </mat-list-item>
+      </a>
+    </nav>
+  </mat-list>
 
 
-<p *ngFor="let a of assignments">
-  Le  devoir {{a.nom}} est à rendre le : {{a.dateRendu}}, rendu: {{a.rendu}}
-</p>
-<form ngForm (submit)="onSubmit();assignmentForm.reset();" #assignmentForm>
-  <mat-form-field>
-    Nom: <input matInput placeholder="nom" [(ngModel)]="nomAssignment"
-    name="nom"
-    >
-
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker"
-    name="date"
-    [(ngModel)]="dateRendu"
-    >
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-
-  <button mat-stroked-button color="primary"  [disabled]="!butonActif">
-    Ajouter un devoir
-  </button>
-</form>
-
-<mat-list *ngFor="let a of assignments">
-  <h3 mat-subheader>{{a.dateRendu | date:'dd/MM/yyyy'}}</h3>
-<mat-list-item (click)="assignmentClicked(a)">
-  <p *ngIf="a.rendu;else nonrendu"appRendu>
-      le devoir {{a.nom}}, a rendre le
-                        {{a.dateRendu}}.
-  </p>
-
-</mat-list-item>
-<mat-divider></mat-divider>
-  <ng-template #nonrendu >
-   <p appNonrendu> Le devoir  {{a.nom}} n'est pas rendu!</p>
-  </ng-template>
-</mat-list>
-<app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
+</main>
