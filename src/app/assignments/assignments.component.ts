@@ -8,6 +8,15 @@ import { Assignment } from './assignment.model';
   styleUrls: ['./assignments.component.css'],
 })
 export class AssignmentsComponent implements OnInit {
+  page: number=1;
+  limit: number=10;
+  totalDocs: number=0;
+  totalPages: number=0;
+  hasPrevPage: boolean=false;
+  prevPage: number=0;
+  hasNextPage: boolean=false;
+  nextPage: number=0;
+
   titre = 'Application de gestion des assignments';
 
   boutonActif = false;
@@ -19,16 +28,29 @@ export class AssignmentsComponent implements OnInit {
   constructor(private assignmentsService: AssignmentsService) {}
 
   ngOnInit() {
-    console.log('avant affichage du composant !');
+    // console.log('avant affichage du composant !');
 
-    // On demande la liste des assignments au service
-    this.assignmentsService.getAssignments()
-    .subscribe((assignments) => {
-      console.log("Données arrivés !")
-      this.assignments = assignments;
-    });
-    console.log("données demandées");
-
+    // // On demande la liste des assignments au service
+    // this.assignmentsService.getAssignmentsPaginated(1,10)
+    // .subscribe((data) => {
+    //   console.log("Données arrivés !")
+    //   this.assignments = data.docs;
+    // });
+    // console.log("données demandées");
+    // this.assignmentsService.getAssignmentsPaginated(this.page, this.limit)
+    //  .subscribe(data => {
+    //    this.assignments = data.docs;
+    //    this.page = data.page;
+    //    this.limit = data.limit;
+    //    this.totalDocs = data.totalDocs;
+    //    this.totalPages = data.totalPages;
+    //    this.hasPrevPage = data.hasPrevPage;
+    //    this.prevPage = data.prevPage;
+    //    this.hasNextPage = data.hasNextPage;
+    //    this.nextPage = data.nextPage;
+    //    console.log("données reçues");
+    //  });
+    this.getAssignments();
     /*
 
     setTimeout(() => {
@@ -38,6 +60,38 @@ export class AssignmentsComponent implements OnInit {
     */
   }
 
+  getAssignments() {
+    this.assignmentsService.getAssignmentsPaginated(this.page, this.limit)
+    .subscribe(data => {
+      this.assignments = data.docs;
+      this.page = data.page;
+      this.limit = data.limit;
+      this.totalDocs = data.totalDocs;
+      this.totalPages = data.totalPages;
+      this.hasPrevPage = data.hasPrevPage;
+      this.prevPage = data.prevPage;
+      this.hasNextPage = data.hasNextPage;
+      this.nextPage = data.nextPage;
+      console.log("données reçues");
+    });
+  }
+  pageSuivante() {
+    this.page = this.nextPage;
+    this.getAssignments();
+  }
+  pagePrecedente() {
+    this.page = this.prevPage;
+    this.getAssignments();
+  }
+
+  premierePage() {
+    this.page = 1;
+    this.getAssignments();
+  }
+  dernierPage() {
+    this.page = this.totalPages;
+    this.getAssignments();
+  }
 
   onDeleteAssignment() {
     if (!this.assignmentSelectionne) {

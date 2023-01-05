@@ -31,8 +31,8 @@ export class AddAssignmentComponent {
     assignment.rendu = false;
 
     // on utilise le service pour l'ajout
-    this.assignmentsService.addAssignment(assignment).subscribe((message) => {
-      console.log('Assignment ajouté !');
+    this.assignmentsService.addAssignment(assignment).subscribe((response) => {
+      console.log(response);
 
       // on navigue par programmation vers la page d'accueil
       // pour afficher la liste des assignments

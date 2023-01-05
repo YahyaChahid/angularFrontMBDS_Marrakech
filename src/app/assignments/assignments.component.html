@@ -6,7 +6,24 @@
   </a>
 
   <h3>Liste des devoirs</h3>
+  <p>Nombre de pages : {{totalPages}}</p>
+  <p>Page courante : {{page}}</p>
+  <br>
+  <div>
+ <button mat-flat-button color="secondary" (click)="pagePrecedente()" [disabled]="!hasPrevPage">
+    Previous
+  </button>
+  <button mat-flat-button color="primary" (click)="pageSuivante()" [disabled]="!hasNextPage">
+    Next
+  </button>
 
+  <button mat-flat-button color="secondary" (click)="premierePage()" [disabled]="page===1">
+     First Page
+   </button>
+   <button mat-flat-button color="primary" (click)="dernierPage()" [disabled]="page===totalPages">
+     Final Page
+   </button>
+ </div>
   <mat-list *ngFor="let a of assignments">
     <mat-divider></mat-divider>
 

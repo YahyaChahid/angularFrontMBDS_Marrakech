@@ -3,8 +3,9 @@
     <a routerLink="/home">HOME</a>
   </nav>
 </h1>
-
+<mat-slide-toggle (click)="login()">Login</mat-slide-toggle>
 <!--
   Affiche le composant correspondant à la route courante (URL courant)
 -->
+<button mat-raised-button color="primary" (click)="peuplerBD()">do it </button>
 <router-outlet></router-outlet>
