@@ -16,6 +16,7 @@ export class AssignmentsComponent implements OnInit {
   prevPage: number=0;
   hasNextPage: boolean=false;
   nextPage: number=0;
+  displayedColumns: string[] = ['name', 'date de rendu', 'rendu'];
 
   titre = 'Application de gestion des assignments';
 
@@ -26,6 +27,7 @@ export class AssignmentsComponent implements OnInit {
   assignments: Assignment[] = [];
 
   constructor(private assignmentsService: AssignmentsService) {}
+
 
   ngOnInit() {
     // console.log('avant affichage du composant !');
@@ -58,6 +60,13 @@ export class AssignmentsComponent implements OnInit {
       this.boutonActif = true;
     }, 3000);
     */
+  }
+  paginator($event:any){
+    console.log($event);
+    this.page = $event.pageIndex+1;
+    this.limit = $event.pageSize;
+    this.getAssignments();
+
   }
 
   getAssignments() {

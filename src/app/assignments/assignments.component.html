@@ -6,10 +6,9 @@
   </a>
 
   <h3>Liste des devoirs</h3>
-  <p>Nombre de pages : {{totalPages}}</p>
-  <p>Page courante : {{page}}</p>
+  <p>Nombre de pages : {{totalPages}}, Page courante : {{page}} <br> Nombre de devoirs par page : {{limit}}   </p>
   <br>
-  <div>
+  <!-- <div>
  <button mat-flat-button color="secondary" (click)="pagePrecedente()" [disabled]="!hasPrevPage">
     Previous
   </button>
@@ -23,7 +22,52 @@
    <button mat-flat-button color="primary" (click)="dernierPage()" [disabled]="page===totalPages">
      Final Page
    </button>
- </div>
+ </div> -->
+ <div>
+      <!-- ajout de table material -->
+      <table mat-table [dataSource]="assignments" class="mat-elevation-z8" >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> id. </th>
+          <td mat-cell *matCellDef="let assignment"> {{assignment.id}} </td>
+        </ng-container> -->
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let assignment"> {{assignment.nom}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="date de rendu">
+          <th mat-header-cell *matHeaderCellDef> date de rendu </th>
+          <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="rendu">
+          <th mat-header-cell *matHeaderCellDef> rendu </th>
+          <td mat-cell *matCellDef="let assignment"> {{assignment.rendu}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator
+      [length]="totalPages"
+      [pageSize]="limit"
+      (page)="paginator($event)"
+      [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+    </div>
+
+
   <mat-list *ngFor="let a of assignments">
     <mat-divider></mat-divider>
 
